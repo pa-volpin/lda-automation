@@ -1,7 +1,6 @@
 import './App.css'
 import { PhotoEditor } from './pages/PhotoEditor'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { purple } from '@mui/material/colors';
 
 const theme = createTheme({
   palette: {
