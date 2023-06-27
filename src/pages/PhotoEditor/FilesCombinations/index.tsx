@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { Box, Button } from "@mui/material";
 import {  v4 as uuidV4 } from 'uuid';
-import AWS from 'aws-sdk';
+// import AWS from 'aws-sdk';
 import { processImages } from "../../../utils/processImage";
 import { isValidSkuCode } from '../../../utils/validateSku';
-import { base64ToBlob } from '../../../utils/base64ToBlob';
+// import { base64ToBlob } from '../../../utils/base64ToBlob';
 import { ICombination, IImageToCombine } from '../../../types';
 import { LinearProgressWithLabel } from '../FilesFromFolder/LoadingBar';
 import { CombinationItem } from "./CombinationItem";
@@ -269,69 +269,69 @@ export const FilesCombinations = ({
 
     setUploadProcessRunning(true);
 
-    const s3 = new AWS.S3({
-      // Configure your AWS credentials here
-      accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID,
-      secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY,
-      region: import.meta.env.VITE_AWS_REGION,
-    });
+    // const s3 = new AWS.S3({
+    //   // Configure your AWS credentials here
+    //   accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID,
+    //   secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY,
+    //   region: import.meta.env.VITE_AWS_REGION,
+    // });
 
-    for (const [index, combination] of combinations.entries()) {
-      if (!combination.resultImage) {
-        return;
-      }
+    // for (const [index, combination] of combinations.entries()) {
+    //   if (!combination.resultImage) {
+    //     return;
+    //   }
 
-      const imgBlob = await base64ToBlob(combination.resultImage.img as string);
+    //   const imgBlob = await base64ToBlob(combination.resultImage.img as string);
 
-      const bucketFolderName = import.meta.env.VITE_AWS_BUCKET_FOLDER_NAME;
+    //   const bucketFolderName = import.meta.env.VITE_AWS_BUCKET_FOLDER_NAME;
   
-      const params = {
-        Bucket: import.meta.env.VITE_AWS_BUCKET_NAME,
-        Key: `${bucketFolderName}/${combination.sku}/combination-${combination.resultImage.id}`,
-        Body: imgBlob,
-        ContentEncoding: 'base64',
-        ContentType: 'image/jpeg'
-      };
+    //   const params = {
+    //     Bucket: import.meta.env.VITE_AWS_BUCKET_NAME,
+    //     Key: `${bucketFolderName}/${combination.sku}/combination-${combination.resultImage.id}`,
+    //     Body: imgBlob,
+    //     ContentEncoding: 'base64',
+    //     ContentType: 'image/jpeg'
+    //   };
 
-      try {
-        const upload = s3.upload(params);
+    //   try {
+    //     const upload = s3.upload(params);
 
-        upload.on('httpUploadProgress', (progress) => {
-          setCombinations((prevState) => ([
-            ...prevState.slice(0, index),
-            {
-              ...combination,
-              uploadProgress: progress.loaded / progress.total,
-              uploadInProgress: true
-            },
-            ...prevState.slice(index + 1)
-          ]));
-        });
+    //     upload.on('httpUploadProgress', (progress) => {
+    //       setCombinations((prevState) => ([
+    //         ...prevState.slice(0, index),
+    //         {
+    //           ...combination,
+    //           uploadProgress: progress.loaded / progress.total,
+    //           uploadInProgress: true
+    //         },
+    //         ...prevState.slice(index + 1)
+    //       ]));
+    //     });
 
-        const uploadResult = await upload.promise();
+    //     const uploadResult = await upload.promise();
 
-        setCombinations((prevState) => ([
-          ...prevState.slice(0, index),
-          {
-            ...combination,
-            uploadStatus: 'success',
-            uploadInProgress: false,
-            bucketUrl: uploadResult.Location
-          },
-          ...prevState.slice(index + 1)
-        ]));
-      } catch (error) {
-        setCombinations((prevState) => ([
-          ...prevState.slice(0, index),
-          {
-            ...combination,
-            uploadStatus: 'error',
-            uploadInProgress: false
-          },
-          ...prevState.slice(index + 1)
-        ]));
-      }
-    }
+    //     setCombinations((prevState) => ([
+    //       ...prevState.slice(0, index),
+    //       {
+    //         ...combination,
+    //         uploadStatus: 'success',
+    //         uploadInProgress: false,
+    //         bucketUrl: uploadResult.Location
+    //       },
+    //       ...prevState.slice(index + 1)
+    //     ]));
+    //   } catch (error) {
+    //     setCombinations((prevState) => ([
+    //       ...prevState.slice(0, index),
+    //       {
+    //         ...combination,
+    //         uploadStatus: 'error',
+    //         uploadInProgress: false
+    //       },
+    //       ...prevState.slice(index + 1)
+    //     ]));
+    //   }
+    // }
   };
 
   const handleResetCombinationsAfterUpload = () => {
