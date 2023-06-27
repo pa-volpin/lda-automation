@@ -3,7 +3,6 @@ export interface IImageToCombine {
   img: string | ArrayBuffer | null;
   createdAt: Date;
 }
-
 export interface ICombination {
   id: string;
   sku: string;

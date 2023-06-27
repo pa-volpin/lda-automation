@@ -1,14 +1,13 @@
-import './init';
 import { useCallback, useEffect, useState } from "react";
 import { Box, Button } from "@mui/material";
-import { CombinationItem } from "./CombinationItem";
 import {  v4 as uuidV4 } from 'uuid';
-import { processImages } from "../../../utils/processImage";
 import AWS from 'aws-sdk';
+import { processImages } from "../../../utils/processImage";
 import { isValidSkuCode } from '../../../utils/validateSku';
 import { base64ToBlob } from '../../../utils/base64ToBlob';
 import { ICombination, IImageToCombine } from '../../../types';
 import { LinearProgressWithLabel } from '../FilesFromFolder/LoadingBar';
+import { CombinationItem } from "./CombinationItem";
 
 interface IProps {
   setImagesToCombine: React.Dispatch<React.SetStateAction<IImageToCombine[]>>;

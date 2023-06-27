@@ -1,7 +1,6 @@
 import { ImageListItem } from "@mui/material";
 import { useDrag } from "react-dnd";
 import { IImageToCombine } from "../../../types";
-
 interface IProps {
   item: IImageToCombine;
 }
