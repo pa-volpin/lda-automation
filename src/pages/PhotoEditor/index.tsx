@@ -3,12 +3,8 @@ import { FilesFromFolder } from "./FilesFromFolder";
 import { Box } from "@mui/material";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-
-export interface IImageToCombine {
-  id: string;
-  img: string | ArrayBuffer | null;
-  createdAt: Date;
-}
+import { IImageToCombine } from "../../types";
+import { FilesCombinations } from "./FilesCombinations";
 
 export const PhotoEditor = () => {
   const [imagesToCombine, setImagesToCombine] = useState<Array<IImageToCombine>>([]);
@@ -16,8 +12,7 @@ export const PhotoEditor = () => {
   return (
     <DndProvider backend={HTML5Backend}>
        <Box sx={{
-        width: window.innerWidth,
-        height: window.innerHeight,
+        padding: 1,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -26,6 +21,9 @@ export const PhotoEditor = () => {
         <FilesFromFolder
           setImagesToCombine={setImagesToCombine}
           imagesToCombine={imagesToCombine}
+        />
+        <FilesCombinations
+          setImagesToCombine={setImagesToCombine}
         />
       </Box>
     </DndProvider>

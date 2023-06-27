@@ -3,7 +3,7 @@ import { Box, Button, ImageList } from "@mui/material";
 import { LinearProgressWithLabel } from "./LoadingBar";
 import { ImageItem } from "./ImageItem";
 import {  v4 as uuidV4 } from 'uuid';
-import { IImageToCombine } from "..";
+import { IImageToCombine } from "../../../types";
 interface IProps {
   imagesToCombine: Array<IImageToCombine>;
   setImagesToCombine: React.Dispatch<React.SetStateAction<IImageToCombine[]>>;
@@ -60,8 +60,8 @@ export const FilesFromFolder = ({ imagesToCombine, setImagesToCombine }: IProps)
   return (
     <Box sx={{width: '40%'}}>
       <Box sx={{
-        height: '85vh',
-        maxHeight: '85vh',
+        height: '90vh',
+        maxHeight: '90vh',
         overflowY: 'auto',
         background: '#fff',
         borderRadius: 1,
