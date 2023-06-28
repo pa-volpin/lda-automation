@@ -169,7 +169,7 @@ export const FilesCombinations = ({
       [type]: itemDropped,
       resultImage
     });
-  }, [combinations, combinationSlot, editCombination, removeImageFromList, replaceImageOnList]);
+  }, [combinations]);
   // --------------------------------------------------------------------
 
 
@@ -243,7 +243,7 @@ export const FilesCombinations = ({
 
       setCombinationSlot(combinationSlotInitialState);
     }
-  }, [combinationSlot.resultImage, addCombination, combinationSlot, combinationSlotInitialState]);
+  }, [combinationSlot.resultImage]);
   // --------------------------------------------------------------------
 
   const handleUploadImages = async () => {
