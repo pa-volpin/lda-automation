@@ -248,7 +248,9 @@ export const FilesCombinations = ({
 
   const handleUploadImages = async () => {
     let hasError = false;
-    for (const [index, combination] of combinations.entries()) {
+    for (let index = 0; index < combinations.length; index++) {
+      const combination = combinations[index];
+
       if (!combination.sku || !isValidSkuCode(combination.sku)) {
         hasError= true;
 
@@ -271,22 +273,24 @@ export const FilesCombinations = ({
 
     const s3 = new AWS.S3({
       // Configure your AWS credentials here
-      accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID,
-      secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY,
-      region: import.meta.env.VITE_AWS_REGION,
+      accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+      region: process.env.REACT_APP_AWS_REGION,
     });
 
-    for (const [index, combination] of combinations.entries()) {
+    for (let index = 0; index < combinations.length; index++) {
+      const combination = combinations[index];
+
       if (!combination.resultImage) {
         return;
       }
 
       const imgBlob = await base64ToBlob(combination.resultImage.img as string);
 
-      const bucketFolderName = import.meta.env.VITE_AWS_BUCKET_FOLDER_NAME;
+      const bucketFolderName = process.env.REACT_APP_AWS_BUCKET_FOLDER_NAME;
   
       const params = {
-        Bucket: import.meta.env.VITE_AWS_BUCKET_NAME,
+        Bucket: process.env.REACT_APP_AWS_BUCKET_NAME as string,
         Key: `${bucketFolderName}/${combination.sku}/combination-${combination.resultImage.id}`,
         Body: imgBlob,
         ContentEncoding: 'base64',
