@@ -27,7 +27,7 @@ export const ImageItem = ({ item }: IProps) => {
       <img
         src={item.img as string}
         loading="lazy"
-        alt={`image-${item.id}`}
+        alt={`option-${item.id}`}
       />
     </ImageListItem>
   );

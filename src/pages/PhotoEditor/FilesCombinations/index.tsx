@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Box, Button } from "@mui/material";
 import {  v4 as uuidV4 } from 'uuid';
 import AWS from 'aws-sdk';
@@ -23,18 +23,20 @@ interface IInputHandleDrop {
 export const FilesCombinations = ({
   setImagesToCombine
 }: IProps) => {
-  const combinationSlotInitialState: ICombination = {
-    id: '',
-    sku: '',
-    image: null,
-    imageMeasure: null,
-    resultImage: null,
-    uploadInProgress: false,
-    uploadProgress: 0,
-    uploadStatus: '',
-    error: '',
-    bucketUrl: ''
-  };
+  const combinationSlotInitialState: ICombination = useMemo(() => {
+    return ({
+      id: '',
+      sku: '',
+      image: null,
+      imageMeasure: null,
+      resultImage: null,
+      uploadInProgress: false,
+      uploadProgress: 0,
+      uploadStatus: '',
+      error: '',
+      bucketUrl: ''
+    });
+  }, []);
 
   const [combinationSlot, setCombinationSlot] = useState<ICombination>(combinationSlotInitialState);
   const [combinations, setCombinations] = useState<Array<ICombination>>([]);
@@ -42,7 +44,7 @@ export const FilesCombinations = ({
 
   // FUNCTIONS TO MANIPULATE COMBINATIONS
   // --------------------------------------------------------------------
-  const addCombination = ({ sku, image, imageMeasure, resultImage }: ICombination) => {
+  const addCombination = useCallback(({ sku, image, imageMeasure, resultImage }: ICombination) => {
     const newId = uuidV4();
 
     setCombinations(previousCombinations => {
@@ -51,9 +53,9 @@ export const FilesCombinations = ({
         { ...combinationSlotInitialState, id: newId, sku, image, imageMeasure, resultImage }
       ])
     });
-  }
+  }, [combinationSlotInitialState]);
 
-  const editCombination = ({ id, sku, image, imageMeasure, resultImage, error }: ICombination) => {
+  const editCombination = useCallback(({ id, sku, image, imageMeasure, resultImage, error }: ICombination) => {
     setCombinations(previousCombinations => {
       const combinationIndex = previousCombinations.findIndex((combination) => combination.id === id);
 
@@ -69,9 +71,9 @@ export const FilesCombinations = ({
         ...previousCombinations.slice(combinationIndex + 1)
       ]
     });
-  }
+  }, [combinationSlotInitialState]);
 
-  const removeCombination = (id: ICombination['id']) => {
+  const removeCombination = useCallback((id: ICombination['id']) => {
     setCombinations(previousCombinations => {
       const combinationIndex = previousCombinations.findIndex((combination) => combination.id === id);
 
@@ -84,13 +86,13 @@ export const FilesCombinations = ({
         ...previousCombinations.slice(combinationIndex + 1)
       ]
     });
-  }
+  }, []);
   // --------------------------------------------------------------------
 
 
   // FUNCTIONS TO MANIPULATE IMAGES LIST
   // --------------------------------------------------------------------
-  const replaceImageOnList = (img: IImageToCombine) => {
+  const replaceImageOnList = useCallback((img: IImageToCombine) => {
     if (!img) {
       return;
     }
@@ -98,9 +100,9 @@ export const FilesCombinations = ({
     setImagesToCombine(prevImagesToCombine => {
       return [...prevImagesToCombine, img]
     });
-  }
+  }, [setImagesToCombine]);
 
-  const removeImageFromList = (id: string) => {
+  const removeImageFromList = useCallback((id: string) => {
     if (!id) {
       return;
     }
@@ -109,7 +111,7 @@ export const FilesCombinations = ({
       const filteredImagesToCombine = prevImagesToCombine.filter((img) => img.id !== id);
       return filteredImagesToCombine;
     });
-  }
+  }, [setImagesToCombine]);
   // --------------------------------------------------------------------
 
 
@@ -169,7 +171,7 @@ export const FilesCombinations = ({
       [type]: itemDropped,
       resultImage
     });
-  }, [combinations]);
+  }, [combinations, combinationSlot, replaceImageOnList, removeImageFromList, editCombination]);
   // --------------------------------------------------------------------
 
 
@@ -233,17 +235,19 @@ export const FilesCombinations = ({
   }
   // --------------------------------------------------------------------
 
+  const handleAddCombinationAndResetSlot = useCallback(() => {
+    addCombination(combinationSlot);
+    setCombinationSlot(combinationSlotInitialState);
+  }, [combinationSlot, combinationSlotInitialState, addCombination])
 
   // EVERY TIME THE COMBINATION SLOT IS FULL FILLED, IT ADDS A NEW COMBINATION
   // AND RESET THE COMBINATION SLOT
   // --------------------------------------------------------------------
   useEffect(() => {
     if (combinationSlot.resultImage) {
-      addCombination(combinationSlot);
-
-      setCombinationSlot(combinationSlotInitialState);
+      handleAddCombinationAndResetSlot();
     }
-  }, [combinationSlot.resultImage]);
+  }, [combinationSlot.resultImage, handleAddCombinationAndResetSlot]);
   // --------------------------------------------------------------------
 
   const handleUploadImages = async () => {
