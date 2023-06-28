@@ -99,7 +99,7 @@ export const CombinationItem = ({ item, handleDrop, handleChangeSku, handleDelet
           sx={styles.box(isOver)}
         >
           {item.image
-            ? <img width="130" height="130" style={{objectFit: 'cover'}}  src={item.image?.img as string} loading="lazy" />
+            ? <img width="130" height="130" style={{objectFit: 'cover'}}  src={item.image?.img as string} alt="Imagem Bolinhas" loading="lazy" />
             : 'Imagem Bolinhas'
           }
         </Box>
@@ -109,7 +109,7 @@ export const CombinationItem = ({ item, handleDrop, handleChangeSku, handleDelet
           sx={styles.box(isOverMeasureImage)}
         >
           {item.imageMeasure
-            ?<img width="130" height="130" style={{objectFit: 'cover'}} src={item.imageMeasure?.img as string} loading="lazy" />
+            ?<img width="130" height="130" style={{objectFit: 'cover'}} src={item.imageMeasure?.img as string} alt="Imagem Régua" loading="lazy" />
             : 'Imagem Régua'
           }
         </Box>
@@ -118,7 +118,7 @@ export const CombinationItem = ({ item, handleDrop, handleChangeSku, handleDelet
           sx={styles.box(false)}
         >
           {item.resultImage
-            ? <img width="130" height="130" style={{objectFit: 'cover'}} src={item.resultImage?.img as string} loading="lazy" />
+            ? <img width="130" height="130" style={{objectFit: 'cover'}} src={item.resultImage?.img as string} alt="Imagem Final" loading="lazy" />
             : 'Imagem Final'
           }
         </Box>
@@ -132,7 +132,7 @@ export const CombinationItem = ({ item, handleDrop, handleChangeSku, handleDelet
           sx={styles.box(false)}
         >
           {item.image
-            ? <img style={{width: 130, height: 130, objectFit: 'cover'}}  src={item.image?.img as string} loading="lazy" />
+            ? <img style={{width: 130, height: 130, objectFit: 'cover'}}  src={item.image?.img as string} alt="Imagem Caixinha" loading="lazy" />
             : 'Imagem Caixinha'
           }
         </Box>

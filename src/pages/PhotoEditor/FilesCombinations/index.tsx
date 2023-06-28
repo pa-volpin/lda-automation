@@ -140,7 +140,7 @@ export const FilesCombinations = ({
   }
 
   const handleDropOnCombination = useCallback(async ({ combinationId, currentItem, type, itemDropped }: IInputHandleDrop) => {
-    if (!type || !itemDropped && !combinationId) {
+    if (!type || !itemDropped || !combinationId) {
       return;
     }
 
@@ -169,7 +169,7 @@ export const FilesCombinations = ({
       [type]: itemDropped,
       resultImage
     });
-  }, [combinations]);
+  }, [combinations, combinationSlot, editCombination, removeImageFromList, replaceImageOnList]);
   // --------------------------------------------------------------------
 
 
@@ -243,7 +243,7 @@ export const FilesCombinations = ({
 
       setCombinationSlot(combinationSlotInitialState);
     }
-  }, [combinationSlot.resultImage]);
+  }, [combinationSlot.resultImage, addCombination, combinationSlot, combinationSlotInitialState]);
   // --------------------------------------------------------------------
 
   const handleUploadImages = async () => {
